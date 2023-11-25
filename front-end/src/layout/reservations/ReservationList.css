@@ -1,0 +1,37 @@
+.reservations-list {
+  text-align: center;
+  padding-right: 40px;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.reservation {
+  list-style: none;
+  padding: 1em;
+  border: 1px solid #102520;
+  margin: 1em;
+  border-radius: 5px;
+  background-color: #96795d;
+}
+
+.reservation:focus,
+.reservation:hover {
+  border: 1px solid #dd913d;
+  color: #dd913d;
+  transition: 0.5s;
+}
+
+@media all and (min-width: 992px) {
+  .reservation {
+    padding: 2em;
+    margin: 2em;
+    border: 1px solid #102520;
+    border-radius: 5px;
+    min-width: 100%;
+    font-size: large;
+  }
+}

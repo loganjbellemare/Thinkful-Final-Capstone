@@ -71,7 +71,7 @@ export async function listReservations(params, signal) {
 export async function createReservation(reservation, signal) {
   const url = `${API_BASE_URL}/reservations`;
   reservation.people = +reservation.people;
-  return await fetchJson(
+  const response = await fetchJson(
     url,
     {
       body: JSON.stringify({ data: reservation }),
@@ -83,4 +83,5 @@ export async function createReservation(reservation, signal) {
   )
     .then(formatReservationDate)
     .then(formatReservationTime);
+  return response;
 }

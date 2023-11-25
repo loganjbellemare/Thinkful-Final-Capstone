@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import "./dashboard.css";
 import { useLocation, useHistory } from "react-router-dom";
 import { listReservations } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
@@ -65,16 +66,20 @@ function Dashboard({ date, setDateState }) {
         <h4 className="mb-0">Reservations for {date}</h4>
       </div>
       <ReservationList reservations={reservations} />
-      <div>
-        <button type="button" onClick={handlePrevious}>
-          Previous
-        </button>
+      <div className="button-box">
+        <button
+          type="button"
+          onClick={handlePrevious}
+          className="fa fa-chevron-left"
+        ></button>
         <button type="button" onClick={handleToday}>
           Today
         </button>
-        <button type="button" onClick={handleNext}>
-          Next
-        </button>
+        <button
+          type="button"
+          onClick={handleNext}
+          className="fa fa-chevron-right"
+        ></button>
       </div>
       <ErrorAlert error={reservationsError} />
     </main>

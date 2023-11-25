@@ -2,6 +2,7 @@ import "./ReservationForm.css";
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { createReservation } from "../../utils/api";
+import { today } from "../../utils/date-time";
 
 export default function ReservationForm({ reservation }) {
   const initialFormData = reservation
@@ -35,10 +36,10 @@ export default function ReservationForm({ reservation }) {
       return;
     } else {
       createReservation(reservationData, controller.signal)
-        .then(() => history.pushState("/"))
-        .catch(setError);
+        .then(() => history.push(`/dashboard?date=${today()}`))
+        .catch(setError)
+        .finally(controller.abort());
     }
-    return () => controller.abort();
   }
 
   function handleCancel(event) {

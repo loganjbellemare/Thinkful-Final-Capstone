@@ -17,7 +17,7 @@ const VALID_PROPS = [
 ];
 
 function bodyHasValidProps(req, res, next) {
-  const { data = {} } = req.body;
+  const { data } = req.body;
   const invalidFields = Object.keys(data).filter(
     (field) => !VALID_PROPS.includes(field)
   );
@@ -32,7 +32,7 @@ function bodyHasValidProps(req, res, next) {
 }
 
 function hasValidMobile(req, res, next) {
-  const { mobile_number = {} } = req.body.data;
+  const { mobile_number } = req.body.data;
   const phonePattern = /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/;
   if (!phonePattern.test(mobile_number)) {
     return next({
@@ -44,7 +44,7 @@ function hasValidMobile(req, res, next) {
 }
 
 function hasValidDate(req, res, next) {
-  const { reservation_date = {} } = req.body.data;
+  const { reservation_date } = req.body.data;
   const datePattern = /^\d{4}-\d{2}-\d{2}$/;
   if (!datePattern.test(reservation_date)) {
     return next({
@@ -56,7 +56,7 @@ function hasValidDate(req, res, next) {
 }
 
 function hasValidTime(req, res, next) {
-  const { reservation_time = {} } = req.body.data;
+  const { reservation_time } = req.body.data;
   const timePattern = /^[0-9]{2}:[0-9]{2}$/;
   if (!timePattern.test(reservation_time)) {
     return next({
@@ -83,7 +83,6 @@ async function create(req, res, next) {
 module.exports = {
   list: asyncErrorBoundary(list),
   create: [
-    bodyHas(VALID_PROPS),
     bodyHasValidProps,
     hasValidMobile,
     hasValidDate,
