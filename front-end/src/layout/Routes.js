@@ -17,38 +17,20 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
  */
 function Routes() {
   const [reservation, setReservation] = useState("");
-  const [dateState, setDateState] = useState(today);
-  const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const date = queryParams.get("date");
-  const history = useHistory();
-
-  useEffect(updateDate, [dateState]);
-
-  function updateDate() {
-    if (date) {
-      return;
-    }
-    updateQueryParam(today());
-  }
-
-  function updateQueryParam(newDate) {
-    history.push(`/dashboard?date=${newDate}`);
-  }
 
   return (
     <Switch>
-      <Route exact={true} path="/">
-        <Redirect to={"/dashboard"} />
+      <Route exact={true} path="/reservations/new">
+        <ReservationForm />
       </Route>
       <Route exact={true} path="/reservations">
         <Redirect to={"/dashboard"} />
       </Route>
-      <Route exact={true} path="/reservations/new">
-        <ReservationForm />
-      </Route>
       <Route path="/dashboard">
-        <Dashboard date={date ? date : today} setDateState={setDateState} />
+        <Dashboard />
+      </Route>
+      <Route exact={true} path="/">
+        <Redirect to={"/dashboard"} />
       </Route>
       <Route>
         <NotFound />

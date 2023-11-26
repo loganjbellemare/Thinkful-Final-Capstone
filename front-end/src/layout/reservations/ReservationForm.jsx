@@ -36,7 +36,9 @@ export default function ReservationForm({ reservation }) {
       return;
     } else {
       createReservation(reservationData, controller.signal)
-        .then(() => history.push(`/dashboard?date=${today()}`))
+        .then(() =>
+          history.push(`/dashboard?date=${reservationData.reservation_date}`)
+        )
         .catch(setError)
         .finally(controller.abort());
     }

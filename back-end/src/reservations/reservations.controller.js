@@ -49,7 +49,7 @@ function hasValidDate(req, res, next) {
   if (!datePattern.test(reservation_date)) {
     return next({
       status: 400,
-      message: `Date invalid, must match input pattern: 'YYYY-MM-DD'`,
+      message: `reservation_date invalid, must match input pattern: 'YYYY-MM-DD'`,
     });
   }
   next();
@@ -61,7 +61,18 @@ function hasValidTime(req, res, next) {
   if (!timePattern.test(reservation_time)) {
     return next({
       status: 400,
-      message: `Time invalid, must match input patter: 'HH:MM'`,
+      message: `reservation_time invalid, must match input patter: 'HH:MM'`,
+    });
+  }
+  next();
+}
+
+function peopleIsNumber(req, res, next) {
+  const { people } = req.body.data;
+  if (!Number.isInteger(people)) {
+    return next({
+      status: 400,
+      message: `people invalid, must be an integer received: ${people}`,
     });
   }
   next();
@@ -77,16 +88,18 @@ async function list(req, res) {
 
 async function create(req, res, next) {
   const data = await service.create(req.body.data);
-  res.sendStatus(201).json({ data });
+  res.status(201).json({ data });
 }
 
 module.exports = {
   list: asyncErrorBoundary(list),
   create: [
+    bodyHas(...VALID_PROPS),
     bodyHasValidProps,
     hasValidMobile,
     hasValidDate,
     hasValidTime,
+    peopleIsNumber,
     asyncErrorBoundary(create),
   ],
 };
