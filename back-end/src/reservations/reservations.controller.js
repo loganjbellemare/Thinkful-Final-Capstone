@@ -78,17 +78,66 @@ function peopleIsNumber(req, res, next) {
   next();
 }
 
+//US-02 validation middleware, checks for valid date inputs
+function dateOccursInPast(req, res, next) {
+  const { reservation_date } = req.body.data;
+  const today = new Date();
+  const dateString = reservation_date.split("-");
+  const dateFromReq = new Date(
+    Number(dateString[0]),
+    Number(dateString[1]) - 1,
+    Number(dateString[2]),
+    0,
+    0,
+    1
+  );
+  if (dateFromReq >= today) {
+    return next();
+  } else if (dateFromReq.getDay() === 2 && dateFromReq < today) {
+    return next({
+      status: 400,
+      message: `Sorry, we're closed Tuesdays! Resevations can only be made for future dates`,
+    });
+  } else {
+    return next({
+      status: 400,
+      message: `Reservations can only be made for future dates`,
+    });
+  }
+}
+
+function occursOnTuesday(req, res, next) {
+  const { reservation_date } = req.body.data;
+  const dateString = reservation_date.split("-");
+  const today = new Date();
+  const dateFromReq = new Date(
+    Number(dateString[0]),
+    Number(dateString[1]) - 1,
+    Number(dateString[2]),
+    0,
+    0,
+    1
+  );
+  if (dateFromReq.getDay() === 2) {
+    return next({
+      status: 400,
+      message: `Sorry, we're closed Tuesdays!`,
+    });
+  }
+  next();
+}
+
 //CRUDL middleware
+
+async function create(req, res, next) {
+  const data = await service.create(req.body.data);
+  res.status(201).json({ data });
+}
 
 async function list(req, res) {
   const { date } = req.query;
   const data = await service.list(date);
   res.status(200).json({ data });
-}
-
-async function create(req, res, next) {
-  const data = await service.create(req.body.data);
-  res.status(201).json({ data });
 }
 
 module.exports = {
@@ -98,6 +147,8 @@ module.exports = {
     bodyHasValidProps,
     hasValidMobile,
     hasValidDate,
+    dateOccursInPast,
+    occursOnTuesday,
     hasValidTime,
     peopleIsNumber,
     asyncErrorBoundary(create),

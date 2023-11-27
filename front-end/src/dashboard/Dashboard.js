@@ -23,9 +23,11 @@ function Dashboard() {
 
   useEffect(updateDate, [dateState]);
 
+  //default date to today if no specific date is entered in query string
   function updateDate() {
     if (!date) {
       updateQueryParam(today());
+      setDateState(today());
     }
   }
 
@@ -33,6 +35,7 @@ function Dashboard() {
     history.push(`/dashboard?date=${newDate}`);
   }
 
+  //load reservations whenever date query param changes
   useEffect(loadDashboard, [date]);
 
   function loadDashboard() {
@@ -44,10 +47,7 @@ function Dashboard() {
     return () => abortController.abort();
   }
 
-  function updateQueryParam(newDate) {
-    history.push(`/dashboard?date=${newDate}`);
-  }
-
+  //button handlers
   function handleNext(event) {
     event.preventDefault();
     setDateState((currentDate) => {

@@ -1,12 +1,9 @@
 import React, { useState } from "react";
 
-import { Redirect, Route, Switch, useLocation } from "react-router-dom";
+import { Redirect, Route, Switch } from "react-router-dom";
 import Dashboard from "../dashboard/Dashboard";
 import ReservationForm from "./reservations/ReservationForm";
 import NotFound from "./NotFound";
-import { today } from "../utils/date-time";
-import { useEffect } from "react";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 /**
  * Defines all the routes for the application.
