@@ -11,6 +11,17 @@ async function create(reservation) {
   }
 }
 
+async function read(reservation_id) {
+  try {
+    return await knex("reservations")
+      .select("*")
+      .where({ reservation_id })
+      .first();
+  } catch (error) {
+    throw error;
+  }
+}
+
 async function list(reservation_date) {
   try {
     return await knex("reservations")
@@ -24,5 +35,6 @@ async function list(reservation_date) {
 
 module.exports = {
   create,
+  read,
   list,
 };

@@ -2,6 +2,7 @@
  * Defines the base URL for the API.
  * The default values is overridden by the `API_BASE_URL` environment variable.
  */
+import { today } from "./date-time";
 import formatReservationDate from "./format-reservation-date";
 import formatReservationTime from "./format-reservation-date";
 
@@ -60,6 +61,11 @@ async function fetchJson(url, options, onCancel) {
 
 export async function listReservations(params, signal) {
   const url = new URL(`${API_BASE_URL}/reservations`);
+
+  if (!params.date) {
+    params.date = today();
+  }
+
   Object.entries(params).forEach(([key, value]) =>
     url.searchParams.append(key, value.toString())
   );
@@ -84,4 +90,39 @@ export async function createReservation(reservation, signal) {
     .then(formatReservationDate)
     .then(formatReservationTime);
   return response;
+}
+
+//tables functions
+export async function createTable(table, signal) {
+  const url = `${API_BASE_URL}/tables`;
+  const response = await fetchJson(
+    url,
+    {
+      body: JSON.stringify({ data: table }),
+      headers,
+      method: "POST",
+      signal,
+    },
+    []
+  );
+  return response;
+}
+
+export async function updateTable(table_id, reservation_id, signal) {
+  const url = `${API_BASE_URL}/tables/${table_id}/seat`;
+  return await fetchJson(
+    url,
+    {
+      body: JSON.stringify({ data: reservation_id }),
+      headers,
+      method: "PUT",
+      signal,
+    },
+    []
+  );
+}
+
+export async function listTables(signal) {
+  const url = `${API_BASE_URL}/tables`;
+  return await fetchJson(url, { headers, signal }, []);
 }

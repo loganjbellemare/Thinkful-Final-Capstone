@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import "./dashboard.css";
 import { useLocation, useHistory } from "react-router-dom";
-import { listReservations } from "../utils/api";
+import { listReservations, listTables } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
 import ReservationList from "../layout/reservations/ReservationList";
+import TableList from "../tables/TableList";
 import { today, next, previous } from "../utils/date-time";
 
 /**
@@ -13,8 +14,10 @@ import { today, next, previous } from "../utils/date-time";
  * @returns {JSX.Element}
  */
 function Dashboard() {
+  const todayDate = today();
   const [reservations, setReservations] = useState([]);
-  const [reservationsError, setReservationsError] = useState(null);
+  const [tables, setTables] = useState([]);
+  const [error, setError] = useState(null);
   const [dateState, setDateState] = useState(today);
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -26,7 +29,8 @@ function Dashboard() {
   //default date to today if no specific date is entered in query string
   function updateDate() {
     if (!date) {
-      updateQueryParam(today());
+      updateQueryParam(todayDate);
+      setDateState(todayDate);
     }
   }
 
@@ -35,15 +39,31 @@ function Dashboard() {
   }
 
   //load reservations whenever date query param changes
-  useEffect(loadDashboard, [date]);
-
-  function loadDashboard() {
+  useEffect(() => {
     const abortController = new AbortController();
-    setReservationsError(null);
-    listReservations({ date }, abortController.signal)
-      .then(setReservations)
-      .catch(setReservationsError);
+
+    // Use Promise.all to execute multiple asynchronous operations concurrently
+    Promise.all([
+      loadReservations(abortController.signal),
+      loadTables(abortController.signal),
+    ])
+      .then(([reservationData, tableData]) => {
+        setReservations(reservationData);
+        setTables(tableData);
+      })
+      .catch((err) => setError(err));
+
     return () => abortController.abort();
+  }, [date]);
+
+  // ... (rest of your component)
+
+  function loadReservations(signal) {
+    return listReservations({ date }, signal);
+  }
+
+  function loadTables(signal) {
+    return listTables(signal);
   }
 
   //button handlers
@@ -81,6 +101,10 @@ function Dashboard() {
         <h4 className="mb-0">Reservations for {date}</h4>
       </div>
       <ReservationList reservations={reservations} />
+      <div className="d-md-flex mb-3">
+        <h4 className="mb-0">Tables</h4>
+      </div>
+      <TableList tables={tables} />
       <div className="button-box">
         <button
           type="button"
@@ -96,7 +120,7 @@ function Dashboard() {
           className="fa fa-chevron-right"
         ></button>
       </div>
-      <ErrorAlert error={reservationsError} />
+      <ErrorAlert error={error} />
     </main>
   );
 }

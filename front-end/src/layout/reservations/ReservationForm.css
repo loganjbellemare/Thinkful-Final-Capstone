@@ -48,7 +48,8 @@ form {
   width: 75%;
 }
 
-.input-box input {
+.input-box input,
+.input-box select {
   width: 100%;
   padding: 10px;
   border: 1px solid rgba(255, 255, 255, 0.5);
@@ -60,6 +61,11 @@ form {
   transition: 0.5s;
 }
 
+.input-box select {
+  font-family: "Poppins", sans-serif;
+  text-transform: uppercase;
+}
+
 form span {
   position: absolute;
   left: 0;
@@ -67,6 +73,12 @@ form span {
   pointer-events: none;
   font-size: 1em;
   color: rgba(255, 255, 255, 0.25);
+  transition: 0.5s;
+}
+
+.input-box select:focus,
+.input-box select:hover {
+  border: 1px solid #dd913d;
   transition: 0.5s;
 }
 

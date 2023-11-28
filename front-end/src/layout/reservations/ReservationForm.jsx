@@ -2,7 +2,6 @@ import "./ReservationForm.css";
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { createReservation } from "../../utils/api";
-import { today } from "../../utils/date-time";
 import ErrorAlert from "../ErrorAlert";
 
 export default function ReservationForm({ reservation }) {

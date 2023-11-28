@@ -18,6 +18,37 @@
   background-color: #96795d;
 }
 
+.seat-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #102520;
+  border-radius: 5px;
+  background-color: #3d210f;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.seat-button:hover,
+.seat-button:focus {
+  border: 1px solid #dd913d;
+  color: #dd913d;
+  transition: 0.5s;
+  text-decoration: none;
+}
+
+.seat-button:active {
+  text-decoration: none;
+  color: #23b492;
+  border: 1px solid #23b492;
+}
+
+.seat-button:visited {
+  text-decoration: none;
+  color: #23b492;
+}
+
 .reservation:focus,
 .reservation:hover {
   border: 1px solid #dd913d;
@@ -33,5 +64,10 @@
     border-radius: 5px;
     min-width: 100%;
     font-size: large;
+  }
+
+  .seat-button {
+    display: inline;
+    padding: 10px 50px;
   }
 }
