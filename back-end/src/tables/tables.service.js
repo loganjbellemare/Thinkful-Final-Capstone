@@ -11,6 +11,14 @@ async function create(table) {
   }
 }
 
+async function read(table_id) {
+  try {
+    return await knex("tables").where({ table_id }).first();
+  } catch (error) {
+    throw error;
+  }
+}
+
 async function update(table, reservation) {
   const { table_id, reservation_id } = table;
   const updatedTable = await knex("tables")
@@ -35,6 +43,7 @@ async function list() {
 
 module.exports = {
   create,
+  read,
   update,
   list,
 };

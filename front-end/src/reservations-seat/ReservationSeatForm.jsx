@@ -19,10 +19,10 @@ export default function ReservationSeatForm() {
   }, []);
 
   //event handlers for form
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
     const controller = new AbortController();
-    updateTable(tableId, reservation_id, controller.signal)
+    await updateTable(tableId, reservation_id, controller.signal)
       .then(() => history.push("/"))
       .catch((err) => setError(err));
     return controller.abort();
@@ -34,7 +34,6 @@ export default function ReservationSeatForm() {
   }
 
   function handleChange(event) {
-    event.preventDefault();
     setTableId(event.target.value);
   }
 
@@ -59,6 +58,17 @@ export default function ReservationSeatForm() {
           >
             <option defaultValue>Select a Table</option>
             {tables.map((table) => {
+              if (table.status === "Occupied") {
+                return (
+                  <option
+                    value={table.table_id}
+                    key={table.table_id}
+                    className="occupied"
+                  >
+                    This table is currently occupied!
+                  </option>
+                );
+              }
               return (
                 <option value={table.table_id} key={table.table_id}>
                   {table.table_name} - {table.capacity}

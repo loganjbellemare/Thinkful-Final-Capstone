@@ -121,6 +121,10 @@ form span {
   transition: 0.5s;
 }
 
+.occupied {
+  text-decoration: line-through;
+}
+
 @media all and (min-width: 768px) {
   h2 {
     font-size: xx-large;

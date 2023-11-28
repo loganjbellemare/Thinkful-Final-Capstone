@@ -98,7 +98,9 @@ export async function createTable(table, signal) {
   const response = await fetchJson(
     url,
     {
-      body: JSON.stringify({ data: table }),
+      body: JSON.stringify({
+        data: { ...table, capacity: Number(table.capacity) },
+      }),
       headers,
       method: "POST",
       signal,
@@ -113,7 +115,7 @@ export async function updateTable(table_id, reservation_id, signal) {
   return await fetchJson(
     url,
     {
-      body: JSON.stringify({ data: reservation_id }),
+      body: JSON.stringify({ data: { reservation_id } }),
       headers,
       method: "PUT",
       signal,

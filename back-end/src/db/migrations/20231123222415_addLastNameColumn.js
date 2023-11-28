@@ -1,5 +1,5 @@
 exports.up = function (knex) {
-  return knex.schema.alterTable("reservations", function (table) {
+  return knex.schema.alterTable("reservations", (table) => {
     table.string("last_name").notNullable();
   });
 };

@@ -1,6 +1,6 @@
 exports.up = function (knex) {
   return knex.schema.alterTable("reservations", (table) => {
-    table.string("status").notNullable().defaultTo("booked");
+    table.string("status").defaultTo("booked").notNullable();
   });
 };
 

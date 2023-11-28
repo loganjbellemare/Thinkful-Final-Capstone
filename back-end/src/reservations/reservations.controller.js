@@ -160,11 +160,30 @@ function timeWithinBusinessHours(req, res, next) {
   });
 }
 
+//US-4 read validation middleware
+async function reservationExists(req, res, next) {
+  const { reservation_id } = req.params;
+  const data = await service.read(reservation_id);
+  if (data) {
+    res.locals.reservation = data;
+    return next();
+  }
+  return next({
+    status: 404,
+    message: `reservation_id not found`,
+  });
+}
+
 //CRUDL middleware
 
 async function create(req, res, next) {
   const data = await service.create(req.body.data);
   res.status(201).json({ data });
+}
+
+async function read(req, res, next) {
+  const data = res.locals.reservation;
+  res.status(200).json({ data });
 }
 
 async function list(req, res) {
@@ -175,6 +194,7 @@ async function list(req, res) {
 
 module.exports = {
   list: asyncErrorBoundary(list),
+  read: [asyncErrorBoundary(reservationExists), asyncErrorBoundary(read)],
   create: [
     bodyHas(...VALID_PROPS),
     bodyHasValidProps,
