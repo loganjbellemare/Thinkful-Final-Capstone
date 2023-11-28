@@ -4,6 +4,12 @@
   font-family: "Poppins", sans-serif;
 }
 
+h2 {
+  font-size: large;
+  text-align: center;
+  padding: 1em;
+}
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -16,13 +22,13 @@
 }
 
 form {
+  padding-top: 1em;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   min-height: 100vh;
   flex-direction: column;
-  gap: 1em;
-  padding-top: 1em;
+  gap: 10px;
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.5);
 }
@@ -82,8 +88,10 @@ form span {
 }
 
 .input-box input:valid,
-.input-box input:focus {
+.input-box input:focus,
+.input-box input:hover {
   border: 1px solid #dd913d;
+  transition: 0.5s;
 }
 
 .button-container button {
@@ -101,16 +109,20 @@ form span {
   transition: 0.5s;
 }
 
-@media all and (min-width: 992px) {
+@media all and (min-width: 768px) {
+  h2 {
+    font-size: xx-large;
+    padding-top: 1em;
+  }
+
   form {
     display: flex;
     justify-content: flex-start;
     align-items: center;
     min-height: 150vh;
     flex-direction: column;
-    gap: 1em;
+    gap: 2em;
     max-width: 100%;
-    padding-top: 3em;
   }
 
   .input-box {
@@ -139,6 +151,6 @@ form span {
     color: #dd913d;
     transform: translateX(10px) translateY(-10px);
     font-size: 0.75em;
-    padding: 0 10px;
+    padding: 0 8px;
   }
 }

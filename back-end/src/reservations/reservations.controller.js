@@ -127,6 +127,39 @@ function occursOnTuesday(req, res, next) {
   next();
 }
 
+//US-03 validation middleware, validate time inputs
+function timeWithinBusinessHours(req, res, next) {
+  const { reservation_time } = req.body.data;
+  const timeFromReq = reservation_time.split(":");
+  const hour = Number(timeFromReq[0]);
+  const minute = Number(timeFromReq[1]);
+  if (hour >= 10) {
+    if (hour === 10) {
+      if (minute >= 30) {
+        return next();
+      }
+    }
+    if (hour <= 21) {
+      if (hour === 21) {
+        if (minute <= 30) {
+          return next();
+        }
+      }
+      return next();
+    }
+  }
+  if (hour <= 10 && minute < 30) {
+    return next({
+      status: 400,
+      message: `Reservations must be made within business hours`,
+    });
+  }
+  return next({
+    status: 400,
+    message: `Seating ends at 9:30 PM!`,
+  });
+}
+
 //CRUDL middleware
 
 async function create(req, res, next) {
@@ -150,6 +183,7 @@ module.exports = {
     dateOccursInPast,
     occursOnTuesday,
     hasValidTime,
+    timeWithinBusinessHours,
     peopleIsNumber,
     asyncErrorBoundary(create),
   ],

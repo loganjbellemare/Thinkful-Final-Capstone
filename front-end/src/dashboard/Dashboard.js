@@ -27,7 +27,6 @@ function Dashboard() {
   function updateDate() {
     if (!date) {
       updateQueryParam(today());
-      setDateState(today());
     }
   }
 

@@ -105,6 +105,20 @@ export default function ReservationForm({ reservation }) {
           />
           <span>Mobile Number</span>
         </div>
+        <label className="sr-only" htmlFor="people">
+          Party Size
+        </label>
+        <div className="input-box">
+          <input
+            type="number"
+            id="people"
+            name="people"
+            value={reservationData.people}
+            onChange={handleChange}
+            required={true}
+          />
+          <span>Party Size</span>
+        </div>
         <div className="input-box input-box-special">
           <label htmlFor="reservation_date">Reservation Date</label>
           <input
@@ -128,20 +142,6 @@ export default function ReservationForm({ reservation }) {
             pattern="[0-9]{2}:[0-9]{2}"
             required={true}
           />
-        </div>
-        <label className="sr-only" htmlFor="people">
-          Party Size
-        </label>
-        <div className="input-box">
-          <input
-            type="number"
-            id="people"
-            name="people"
-            value={reservationData.people}
-            onChange={handleChange}
-            required={true}
-          />
-          <span>Party Size</span>
         </div>
         <div className="button-container d-flex flex-row p-3">
           <button onClick={handleCancel} className="mx-2 btn py-3 px-4">
