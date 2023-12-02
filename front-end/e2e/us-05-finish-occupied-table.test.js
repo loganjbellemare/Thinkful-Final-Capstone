@@ -1,5 +1,5 @@
 const puppeteer = require("puppeteer");
-const { setDefaultOptions } = require('expect-puppeteer');
+const { setDefaultOptions } = require("expect-puppeteer");
 const fs = require("fs");
 const fsPromises = fs.promises;
 
@@ -65,7 +65,7 @@ describe("US-05 - Finish an occupied table - E2E", () => {
       const containsOccupied = await containsText(
         page,
         `[data-table-id-status="${table.table_id}"]`,
-        "occupied"
+        "Occupied"
       );
 
       expect(containsOccupied).toBe(true);
@@ -94,7 +94,7 @@ describe("US-05 - Finish an occupied table - E2E", () => {
       const containsFree = await containsText(
         page,
         `[data-table-id-status="${table.table_id}"]`,
-        "free"
+        "Free"
       );
 
       expect(containsFree).toBe(true);
@@ -109,12 +109,14 @@ describe("US-05 - Finish an occupied table - E2E", () => {
       const containsOccupied = await containsText(
         page,
         `[data-table-id-status="${table.table_id}"]`,
-        "occupied"
+        "Occupied"
       );
 
       expect(containsOccupied).toBe(true);
 
       const finishButtonSelector = `[data-table-id-finish="${table.table_id}"]`;
+      //debug log delete later
+      console.log("finishSelector", finishButtonSelector);
       await page.waitForSelector(finishButtonSelector);
 
       page.on("dialog", async (dialog) => {
@@ -136,7 +138,7 @@ describe("US-05 - Finish an occupied table - E2E", () => {
       const containsFree = await containsText(
         page,
         `[data-table-id-status="${table.table_id}"]`,
-        "free"
+        "Free"
       );
 
       expect(containsFree).toBe(false);

@@ -137,11 +137,34 @@ function checkCapacity(req, res, next) {
   }
 }
 
+//US-05, check if table being finished truly has status of occupied
+function checkOccupied(req, res, next) {
+  const { status } = res.locals.table;
+  if (status == "Occupied") {
+    return next();
+  } else {
+    return next({
+      status: 400,
+      message: `Table is not occupied`,
+    });
+  }
+}
+
 //CRUDL middleware
 
 async function create(req, res, next) {
-  const data = await service.create(req.body.data);
-  res.status(201).json({ data });
+  const { reservation_id } = req.body.data;
+  if (reservation_id) {
+    const newTable = {
+      ...req.body.data,
+      status: "Occupied",
+    };
+    await service.create(newTable);
+    res.status(201).json({ data: newTable });
+  } else {
+    const data = await service.create(req.body.data);
+    res.status(201).json({ data });
+  }
 }
 
 async function update(req, res, next) {
@@ -162,6 +185,21 @@ async function update(req, res, next) {
   res.status(200).json({ data });
 }
 
+async function destroy(req, res, next) {
+  const { reservation_id } = res.locals.table;
+  const newTable = {
+    ...res.locals.table,
+    status: "Free",
+  };
+  const reservation = await reservationService.read(reservation_id);
+  const updatedReservation = {
+    ...reservation,
+    status: "finished",
+  };
+  const openTable = await service.delete(newTable, updatedReservation);
+  res.status(200).json({ data: openTable });
+}
+
 async function list(req, res, next) {
   const data = await service.list();
   res.status(200).json({ data });
@@ -170,7 +208,7 @@ async function list(req, res, next) {
 module.exports = {
   create: [
     bodyHas(...VALID_PROPS),
-    bodyHasValidProps,
+    //bodyHasValidProps,
     hasValidName,
     hasValidCapacity,
     asyncErrorBoundary(create),
@@ -182,6 +220,11 @@ module.exports = {
     asyncErrorBoundary(checkReservationStatus),
     asyncErrorBoundary(checkCapacity),
     asyncErrorBoundary(update),
+  ],
+  delete: [
+    asyncErrorBoundary(tableExists),
+    asyncErrorBoundary(checkOccupied),
+    asyncErrorBoundary(destroy),
   ],
   list: asyncErrorBoundary(list),
 };

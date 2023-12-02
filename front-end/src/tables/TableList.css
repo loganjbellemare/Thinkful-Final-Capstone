@@ -26,11 +26,47 @@
   transition: 0.5s;
 }
 
+.finish-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #102520;
+  border-radius: 5px;
+  background-color: #3d210f;
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.finish-button:hover,
+.finish-button:focus {
+  border: 1px solid #dd913d;
+  color: #dd913d;
+  transition: 0.5s;
+  text-decoration: none;
+}
+
+.finish-button:active {
+  text-decoration: none;
+  color: #23b492;
+  border: 1px solid #23b492;
+}
+
+.finish-button:visited {
+  text-decoration: none;
+  color: #23b492;
+}
+
 @media all and (min-width: 992px) {
   .table {
     padding: 2em;
     margin: 2em;
     font-size: large;
     min-width: 100%;
+  }
+
+  .finish-button {
+    display: inline;
+    padding: 10px 50px;
   }
 }

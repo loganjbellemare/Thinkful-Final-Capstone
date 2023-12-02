@@ -22,6 +22,14 @@ async function read(reservation_id) {
   }
 }
 
+async function update(reservation) {
+  const { reservation_id } = reservation;
+  return await knex("reservations")
+    .where({ reservation_id })
+    .update({ ...reservation })
+    .returning("*");
+}
+
 async function list(reservation_date) {
   try {
     return await knex("reservations")

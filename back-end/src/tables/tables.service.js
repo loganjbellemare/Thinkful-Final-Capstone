@@ -21,16 +21,28 @@ async function read(table_id) {
 
 async function update(table, reservation) {
   const { table_id, reservation_id } = table;
-  const updatedTable = await knex("tables")
+  await knex("tables")
     .where({ table_id })
-    .update({ ...table })
-    .returning("*");
+    .update({ ...table });
   await knex("reservations")
     .where({ reservation_id })
-    .update({ ...reservation })
-    .returning("*");
+    .update({ ...reservation });
 
-  return updatedTable;
+  return await knex("tables").where({ table_id }).first();
+}
+
+async function destroy(table, reservation) {
+  const { table_id } = table;
+  const { reservation_id } = reservation;
+  await knex("tables")
+    .where({ table_id })
+    .update({ ...table });
+
+  await knex("reservations")
+    .where({ reservation_id })
+    .update({ ...reservation });
+
+  return await knex("tables").where({ table_id }).first();
 }
 
 async function list() {
@@ -45,5 +57,6 @@ module.exports = {
   create,
   read,
   update,
+  delete: destroy,
   list,
 };

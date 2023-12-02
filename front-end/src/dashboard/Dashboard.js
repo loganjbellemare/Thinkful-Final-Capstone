@@ -104,7 +104,7 @@ function Dashboard() {
       <div className="d-md-flex mb-3">
         <h4 className="mb-0">Tables</h4>
       </div>
-      <TableList tables={tables} />
+      <TableList tables={tables} date={date} setTables={setTables} />
       <div className="button-box">
         <button
           type="button"
