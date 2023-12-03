@@ -1,53 +1,82 @@
 import { useState } from "react";
-import { listTables } from "../utils/api";
-import { deleteTable } from "../utils/api";
+import { listTables, deleteTable } from "../utils/api";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
-export default function Table({ status, table_name, table, date, setTables }) {
+export default function Table({ status, table_name, table }) {
   const history = useHistory();
+  const [currentTable, setCurrentTable] = useState(table);
   const [error, setError] = useState(null);
 
   //US-05, event handler for table finish
+  async function clearAndLoadTables() {
+    const abortController = new AbortController();
+    try {
+      const response = await deleteTable(
+        currentTable.table_id,
+        abortController.signal
+      );
+      const tableToSet = response.find(
+        (table) => table.table_id === currentTable.table_id
+      );
+      setCurrentTable({ ...tableToSet });
+      listTables();
+      return tableToSet;
+    } catch (error) {
+      setError(error);
+    }
+  }
+
   async function handleFinish(event) {
     event.preventDefault();
-    const controller = new AbortController();
-    const confirmDelete = window.confirm(
-      "Is this table ready to seat new guests? This cannot be undone."
-    );
-    if (confirmDelete) {
-      await deleteTable(Number(event.target.value), controller.signal).catch(
-        (err) => setError(err)
-      );
-      const updatedTables = await listTables(controller.signal).catch((err) =>
-        setError(err)
-      );
-      setTables(updatedTables);
-      history.push(`/dashboard?date=${date}`);
+    setError(null);
+    if (
+      window.confirm(
+        "Is this table ready to seat new guests? This cannot be undone."
+      )
+    ) {
+      await clearAndLoadTables();
+      history.push("/tables");
+      return;
     }
-    return controller.abort();
   }
 
   return (
-    <li key={table.table_id} className="table">
-      Table: {table_name}
-      <p>ID: {table.table_id}</p>
-      <p>Status: {status}</p>
-      {Object.entries(table).map(([key, value]) => (
-        <p key={key}>
-          {key}: {value}
-        </p>
-      ))}
-      {status === "Occupied" ? (
-        <button
-          data-table-id-finish={table.table_id}
-          type="button"
-          className="finish-button"
-          value={table.table_id}
-          onClick={handleFinish}
-        >
-          occupied - finish
-        </button>
-      ) : null}
-    </li>
+    <>
+      <tr className="table-row">
+        <th> {table.table_id} </th>
+        <td data-title="Table Name"> {table_name} </td>
+        <td data-title="Capacity"> {table.capacity} </td>
+        <td data-title="Reservation ID"> {table.reservation_id} </td>
+        {status === "Occupied" ? (
+          <td
+            data-table-id-status={`${table.table_id}`}
+            data-title="Table Status"
+          >
+            {" "}
+            {status.toLowerCase()}{" "}
+          </td>
+        ) : (
+          <td data-title="Table Status" className="status">
+            {" "}
+            {status.toLowerCase()}{" "}
+          </td>
+        )}
+        <td>
+          {status === "Occupied" ? (
+            <button
+              className="finish-button"
+              onClick={handleFinish}
+              data-table-id-finish={`${table.table_id}`}
+              value={table.table_id}
+              data-title="Clear Tables"
+            >
+              Finish
+            </button>
+          ) : (
+            <></>
+          )}
+        </td>
+      </tr>
+    </>
   );
 }

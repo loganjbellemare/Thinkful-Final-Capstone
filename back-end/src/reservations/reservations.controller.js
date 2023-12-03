@@ -186,6 +186,12 @@ async function read(req, res, next) {
   res.status(200).json({ data });
 }
 
+async function update(req, res, next) {
+  const { reservation } = res.locals;
+  const data = await service.update(reservation);
+  res.status(200).json({ data });
+}
+
 async function list(req, res) {
   const { date } = req.query;
   const data = await service.list(date);
@@ -197,7 +203,7 @@ module.exports = {
   read: [asyncErrorBoundary(reservationExists), asyncErrorBoundary(read)],
   create: [
     bodyHas(...VALID_PROPS),
-    bodyHasValidProps,
+    //bodyHasValidProps,
     hasValidMobile,
     hasValidDate,
     dateOccursInPast,

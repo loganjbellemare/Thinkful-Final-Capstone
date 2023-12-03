@@ -24,10 +24,11 @@ async function read(reservation_id) {
 
 async function update(reservation) {
   const { reservation_id } = reservation;
-  return await knex("reservations")
+  await knex("reservations")
     .where({ reservation_id })
-    .update({ ...reservation })
-    .returning("*");
+    .update({ ...reservation });
+
+  return knex("reservations").where({ reservation_id }).first();
 }
 
 async function list(reservation_date) {
@@ -44,5 +45,6 @@ async function list(reservation_date) {
 module.exports = {
   create,
   read,
+  update,
   list,
 };

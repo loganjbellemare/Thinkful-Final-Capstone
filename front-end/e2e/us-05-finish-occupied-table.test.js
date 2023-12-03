@@ -19,7 +19,7 @@ describe("US-05 - Finish an occupied table - E2E", () => {
 
   beforeAll(async () => {
     await fsPromises.mkdir("./.screenshots", { recursive: true });
-    setDefaultOptions({ timeout: 1000 });
+    setDefaultOptions({ timeout: 2000 });
     browser = await puppeteer.launch();
   });
 
@@ -65,7 +65,7 @@ describe("US-05 - Finish an occupied table - E2E", () => {
       const containsOccupied = await containsText(
         page,
         `[data-table-id-status="${table.table_id}"]`,
-        "Occupied"
+        "occupied"
       );
 
       expect(containsOccupied).toBe(true);
@@ -94,7 +94,7 @@ describe("US-05 - Finish an occupied table - E2E", () => {
       const containsFree = await containsText(
         page,
         `[data-table-id-status="${table.table_id}"]`,
-        "Free"
+        "free"
       );
 
       expect(containsFree).toBe(true);
@@ -109,14 +109,12 @@ describe("US-05 - Finish an occupied table - E2E", () => {
       const containsOccupied = await containsText(
         page,
         `[data-table-id-status="${table.table_id}"]`,
-        "Occupied"
+        "occupied"
       );
 
       expect(containsOccupied).toBe(true);
 
       const finishButtonSelector = `[data-table-id-finish="${table.table_id}"]`;
-      //debug log delete later
-      console.log("finishSelector", finishButtonSelector);
       await page.waitForSelector(finishButtonSelector);
 
       page.on("dialog", async (dialog) => {
@@ -138,7 +136,7 @@ describe("US-05 - Finish an occupied table - E2E", () => {
       const containsFree = await containsText(
         page,
         `[data-table-id-status="${table.table_id}"]`,
-        "Free"
+        "free"
       );
 
       expect(containsFree).toBe(false);

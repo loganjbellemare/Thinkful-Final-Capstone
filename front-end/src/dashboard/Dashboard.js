@@ -42,7 +42,6 @@ function Dashboard() {
   useEffect(() => {
     const abortController = new AbortController();
 
-    // Use Promise.all to execute multiple asynchronous operations concurrently
     Promise.all([
       loadReservations(abortController.signal),
       loadTables(abortController.signal),
@@ -55,8 +54,6 @@ function Dashboard() {
 
     return () => abortController.abort();
   }, [date]);
-
-  // ... (rest of your component)
 
   function loadReservations(signal) {
     return listReservations({ date }, signal);
@@ -120,7 +117,6 @@ function Dashboard() {
           className="fa fa-chevron-right"
         ></button>
       </div>
-      <ErrorAlert error={error} />
     </main>
   );
 }

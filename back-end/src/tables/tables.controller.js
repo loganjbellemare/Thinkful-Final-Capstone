@@ -159,6 +159,14 @@ async function create(req, res, next) {
       ...req.body.data,
       status: "Occupied",
     };
+    const reservation = await reservationService.read(reservation_id);
+    if (reservation.status !== "seated") {
+      const updatedReservation = {
+        ...reservation,
+        status: "seated",
+      };
+      await reservationService.update(updatedReservation);
+    }
     await service.create(newTable);
     res.status(201).json({ data: newTable });
   } else {
@@ -189,6 +197,7 @@ async function destroy(req, res, next) {
   const { reservation_id } = res.locals.table;
   const newTable = {
     ...res.locals.table,
+    reservation_id: null,
     status: "Free",
   };
   const reservation = await reservationService.read(reservation_id);

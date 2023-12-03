@@ -15,7 +15,7 @@ function containsText(page, selector, expected) {
     (selector, expected) => {
       return document
         .querySelector(selector)
-        .textContent.toLowerCase()
+        .innerText.toLowerCase()
         .includes(expected);
     },
     selector,
