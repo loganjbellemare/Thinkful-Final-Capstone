@@ -18,6 +18,10 @@
   background-color: #96795d;
 }
 
+.reservation hr {
+  border: 1px solid #96795d;
+}
+
 .seat-button {
   display: flex;
   justify-content: center;

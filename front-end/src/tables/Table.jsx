@@ -42,7 +42,7 @@ export default function Table({ status, table_name, table }) {
 
   return (
     <>
-      <tr className="table-row">
+      <tr className="table-row" data-table-id-status={table.table_id}>
         <th> {table.table_id} </th>
         <td data-title="Table Name"> {table_name} </td>
         <td data-title="Capacity"> {table.capacity} </td>

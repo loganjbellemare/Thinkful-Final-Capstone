@@ -166,12 +166,48 @@ async function reservationExists(req, res, next) {
   const data = await service.read(reservation_id);
   if (data) {
     res.locals.reservation = data;
+    res.locals.data = req.body.data;
     return next();
   }
   return next({
     status: 404,
-    message: `reservation_id not found`,
+    message: `reservation_id not found ${reservation_id}`,
   });
+}
+
+//US-6 validation middleware
+function validStatusPost(req, res, next) {
+  const { status } = req.body.data;
+  if (status !== "seated" && status !== "finished") {
+    return next();
+  }
+  return next({
+    status: 400,
+    message: `status cannot be 'seated' or 'finished'`,
+  });
+}
+
+function hasValidStatus(req, res, next) {
+  const { status } = res.locals.data;
+  if (status !== "booked" && status !== "seated" && status !== "finished") {
+    return next({
+      status: 400,
+      message: `status property must be one of: 'seated', 'booked', or 'finished'. Received: ${status}`,
+    });
+  }
+  next();
+}
+
+function validateReservationStatus(req, res, next) {
+  const { status } = res.locals.reservation;
+  if (status === "finished") {
+    next({
+      status: 400,
+      message: "reservation cannot already be finished.",
+    });
+  } else {
+    return next();
+  }
 }
 
 //CRUDL middleware
@@ -188,14 +224,24 @@ async function read(req, res, next) {
 
 async function update(req, res, next) {
   const { reservation } = res.locals;
-  const data = await service.update(reservation);
+  const { status } = req.body.data;
+  const updatedReservation = {
+    ...reservation,
+    status,
+  };
+  const data = await service.update(updatedReservation);
   res.status(200).json({ data });
 }
 
 async function list(req, res) {
   const { date } = req.query;
-  const data = await service.list(date);
-  res.status(200).json({ data });
+  if (date) {
+    const data = await service.listByDate(date);
+    res.status(200).json({ data });
+  } else {
+    const data = await service.list();
+    res.status(200).json({ data });
+  }
 }
 
 module.exports = {
@@ -205,6 +251,7 @@ module.exports = {
     bodyHas(...VALID_PROPS),
     //bodyHasValidProps,
     hasValidMobile,
+    validStatusPost,
     hasValidDate,
     dateOccursInPast,
     occursOnTuesday,
@@ -212,5 +259,12 @@ module.exports = {
     timeWithinBusinessHours,
     peopleIsNumber,
     asyncErrorBoundary(create),
+  ],
+  update: [
+    bodyHas("status"),
+    asyncErrorBoundary(reservationExists),
+    asyncErrorBoundary(hasValidStatus),
+    asyncErrorBoundary(validateReservationStatus),
+    asyncErrorBoundary(update),
   ],
 };

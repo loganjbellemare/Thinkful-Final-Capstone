@@ -23,17 +23,33 @@ async function read(reservation_id) {
 }
 
 async function update(reservation) {
-  const { reservation_id } = reservation;
-  await knex("reservations")
-    .where({ reservation_id })
-    .update({ ...reservation });
+  try {
+    const { reservation_id } = reservation;
+    await knex("reservations")
+      .where({ reservation_id })
+      .update({ ...reservation });
 
-  return knex("reservations").where({ reservation_id }).first();
+    return knex("reservations").where({ reservation_id }).first();
+  } catch (error) {
+    throw error;
+  }
 }
 
-async function list(reservation_date) {
+async function list() {
   try {
     return await knex("reservations")
+      .whereNot({ status: "finished" })
+      .select("*")
+      .orderBy("reservation_time");
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function listByDate(reservation_date) {
+  try {
+    return await knex("reservations")
+      .whereNot({ status: "finished" })
       .where({ reservation_date })
       .select("*")
       .orderBy("reservation_time");
@@ -47,4 +63,5 @@ module.exports = {
   read,
   update,
   list,
+  listByDate,
 };

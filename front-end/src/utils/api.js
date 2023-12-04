@@ -106,6 +106,22 @@ export async function readReservation(reservation_id, signal) {
     .then(formatReservationTime);
 }
 
+export async function updateReservation(data, reservation_id, signal) {
+  const url = `${API_BASE_URL}/reservations/${reservation_id}/status`;
+  return await fetchJson(
+    url,
+    {
+      method: "PUT",
+      headers,
+      body: JSON.stringify({ data }),
+      signal,
+    },
+    []
+  )
+    .then(formatReservationDate)
+    .then(formatReservationTime);
+}
+
 //tables functions
 export async function createTable(table, signal) {
   const url = `${API_BASE_URL}/tables`;
