@@ -47,20 +47,13 @@ export default function Table({ status, table_name, table }) {
         <td data-title="Table Name"> {table_name} </td>
         <td data-title="Capacity"> {table.capacity} </td>
         <td data-title="Reservation ID"> {table.reservation_id} </td>
-        {status === "Occupied" ? (
-          <td
-            data-table-id-status={`${table.table_id}`}
-            data-title="Table Status"
-          >
-            {" "}
-            {status.toLowerCase()}{" "}
-          </td>
-        ) : (
-          <td data-title="Table Status" className="status">
-            {" "}
-            {status.toLowerCase()}{" "}
-          </td>
-        )}
+        <td
+          data-table-id-status={`${table.table_id}`}
+          data-title="Table Status"
+        >
+          {" "}
+          {status.toLowerCase()}{" "}
+        </td>
         <td>
           {status === "Occupied" ? (
             <button

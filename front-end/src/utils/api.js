@@ -137,7 +137,7 @@ export async function createTable(table, signal) {
     },
     []
   );
-  return response;
+  return await response;
 }
 
 export async function updateTable(table_id, reservation_id, signal) {

@@ -167,8 +167,8 @@ async function create(req, res, next) {
       };
       await reservationService.update(updatedReservation);
     }
-    await service.create(newTable);
-    res.status(201).json({ data: newTable });
+    const response = await service.create(newTable);
+    res.status(201).json({ data: response });
   } else {
     const data = await service.create(req.body.data);
     res.status(201).json({ data });
