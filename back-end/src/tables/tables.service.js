@@ -5,7 +5,6 @@ async function create(table) {
     const createdRecords = await knex("tables")
       .insert({ ...table })
       .returning("*");
-    console.log(createdRecords[0]);
     return createdRecords[0];
   } catch (error) {
     throw error;
