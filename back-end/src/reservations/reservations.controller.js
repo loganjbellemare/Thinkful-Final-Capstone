@@ -234,9 +234,12 @@ async function update(req, res, next) {
 }
 
 async function list(req, res) {
-  const { date } = req.query;
+  const { date, mobile_number } = req.query;
   if (date) {
     const data = await service.listByDate(date);
+    res.status(200).json({ data });
+  } else if (mobile_number) {
+    const data = await service.listByNumber(mobile_number);
     res.status(200).json({ data });
   } else {
     const data = await service.list();

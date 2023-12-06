@@ -6,6 +6,7 @@ import ReservationForm from "./reservations/ReservationForm";
 import NotFound from "./NotFound";
 import TableForm from "../tables/TableForm";
 import ReservationSeatForm from "../reservations-seat/ReservationSeatForm";
+import SearchForm from "./search/SearchForm";
 
 /**
  * Defines all the routes for the application.
@@ -36,6 +37,9 @@ function Routes() {
       </Route>
       <Route path="/dashboard">
         <Dashboard />
+      </Route>
+      <Route exact={true} path="/search">
+        <SearchForm />
       </Route>
       <Route exact={true} path="/">
         <Redirect to={"/dashboard"} />

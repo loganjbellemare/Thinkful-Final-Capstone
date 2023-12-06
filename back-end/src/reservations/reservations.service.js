@@ -58,10 +58,25 @@ async function listByDate(reservation_date) {
   }
 }
 
+async function listByNumber(mobile_number) {
+  try {
+    return await knex("reservations")
+      .select("*")
+      .whereRaw(
+        "translate(mobile_number, '() -', '') like ?",
+        `%${mobile_number.replace(/\D/g, "")}%`
+      )
+      .orderBy("reservation_id");
+  } catch (error) {
+    throw error;
+  }
+}
+
 module.exports = {
   create,
   read,
   update,
   list,
   listByDate,
+  listByNumber,
 };

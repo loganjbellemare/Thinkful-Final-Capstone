@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { listTables, deleteTable } from "../utils/api";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import ErrorAlert from "../layout/ErrorAlert";
 
 export default function Table({ status, table_name, table }) {
   const history = useHistory();
@@ -42,6 +43,7 @@ export default function Table({ status, table_name, table }) {
 
   return (
     <>
+      <ErrorAlert error={error} />
       <tr className="table-row" data-table-id-status={table.table_id}>
         <th> {table.table_id} </th>
         <td data-title="Table Name"> {table_name} </td>
@@ -65,9 +67,7 @@ export default function Table({ status, table_name, table }) {
             >
               Finish
             </button>
-          ) : (
-            <></>
-          )}
+          ) : null}
         </td>
       </tr>
     </>

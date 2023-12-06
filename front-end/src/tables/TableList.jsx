@@ -22,7 +22,7 @@ export default function TableList({ tables, date, setTables }) {
           <th> Capacity </th>
           <th> Reservation ID </th>
           <th> Table Status </th>
-          {clearTableToggler.length ? <th> Clear Tables </th> : <></>}
+          {clearTableToggler.length ? <th> Clear Tables </th> : <th></th>}
         </tr>
       </thead>
       <tbody>
