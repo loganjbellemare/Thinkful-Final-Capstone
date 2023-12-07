@@ -56,8 +56,6 @@ export default function ReservationForm({ reservation }) {
     return () => controller.abort();
   }
 
-  //debug delete later
-  console.log("reservationData", reservationData);
   return (
     <div className="form-box">
       {reservation ? <h1>Edit Reservation</h1> : <h2>New Reservation</h2>}
