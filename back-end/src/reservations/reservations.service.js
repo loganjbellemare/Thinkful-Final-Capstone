@@ -22,7 +22,7 @@ async function read(reservation_id) {
   }
 }
 
-async function update(reservation) {
+async function updateStatus(reservation) {
   try {
     const { reservation_id } = reservation;
     await knex("reservations")
@@ -30,6 +30,19 @@ async function update(reservation) {
       .update({ ...reservation });
 
     return knex("reservations").where({ reservation_id }).first();
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function update(reservation) {
+  try {
+    const { reservation_id } = reservation;
+    await knex("reservations")
+      .where({ reservation_id })
+      .update({ ...reservation });
+
+    return read(reservation_id);
   } catch (error) {
     throw error;
   }
@@ -49,9 +62,9 @@ async function list() {
 async function listByDate(reservation_date) {
   try {
     return await knex("reservations")
+      .select("*")
       .whereNot({ status: "finished" })
       .where({ reservation_date })
-      .select("*")
       .orderBy("reservation_time");
   } catch (error) {
     throw error;
@@ -75,6 +88,7 @@ async function listByNumber(mobile_number) {
 module.exports = {
   create,
   read,
+  updateStatus,
   update,
   list,
   listByDate,

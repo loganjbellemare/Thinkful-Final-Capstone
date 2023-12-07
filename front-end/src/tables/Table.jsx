@@ -3,7 +3,7 @@ import { listTables, deleteTable } from "../utils/api";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import ErrorAlert from "../layout/ErrorAlert";
 
-export default function Table({ status, table_name, table }) {
+export default function Table({ table }) {
   const history = useHistory();
   const [currentTable, setCurrentTable] = useState(table);
   const [error, setError] = useState(null);
@@ -46,7 +46,7 @@ export default function Table({ status, table_name, table }) {
       <ErrorAlert error={error} />
       <tr className="table-row" data-table-id-status={table.table_id}>
         <th> {table.table_id} </th>
-        <td data-title="Table Name"> {table_name} </td>
+        <td data-title="Table Name"> {table.table_name} </td>
         <td data-title="Capacity"> {table.capacity} </td>
         <td data-title="Reservation ID"> {table.reservation_id} </td>
         <td
@@ -54,10 +54,10 @@ export default function Table({ status, table_name, table }) {
           data-title="Table Status"
         >
           {" "}
-          {status.toLowerCase()}{" "}
+          {table.status.toLowerCase()}{" "}
         </td>
         <td>
-          {status === "Occupied" ? (
+          {table.status === "Occupied" ? (
             <button
               className="finish-button"
               onClick={handleFinish}

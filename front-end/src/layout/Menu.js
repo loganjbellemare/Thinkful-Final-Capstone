@@ -1,6 +1,7 @@
 import React from "react";
 
 import { Link } from "react-router-dom";
+import { today } from "../utils/date-time";
 
 /**
  * Defines the menu for this application.
@@ -27,7 +28,7 @@ function Menu() {
             id="accordionSidebar"
           >
             <li className="nav-item p-2">
-              <Link className="nav-link" to="/dashboard">
+              <Link className="nav-link" to={`/dashboard?date=${today()}`}>
                 <span className="oi oi-dashboard" />
                 &nbsp;Dashboard
               </Link>

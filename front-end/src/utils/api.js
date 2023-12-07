@@ -64,6 +64,8 @@ export async function listReservations(params, signal) {
   Object.entries(params).forEach(([key, value]) =>
     url.searchParams.append(key, value.toString())
   );
+  //debug log delete later
+  console.log("url", url);
   return await fetchJson(url, { headers, signal }, [])
     .then(formatReservationDate)
     .then(formatReservationTime);
@@ -101,8 +103,8 @@ export async function readReservation(reservation_id, signal) {
     .then(formatReservationTime);
 }
 
-export async function updateReservation(data, reservation_id, signal) {
-  const url = `${API_BASE_URL}/reservations/${reservation_id}/status`;
+export async function updateReservationStatus(data, reservation_id, signal) {
+  const url = `${API_BASE_URL}/reservations/${data.reservation_id}/status`;
   return await fetchJson(
     url,
     {
@@ -115,6 +117,34 @@ export async function updateReservation(data, reservation_id, signal) {
   )
     .then(formatReservationDate)
     .then(formatReservationTime);
+}
+
+export async function updateReservation(data, signal) {
+  const url = `${API_BASE_URL}/reservations/${data.reservation_id}`;
+  return await fetchJson(
+    url,
+    {
+      method: "PUT",
+      headers,
+      body: JSON.stringify({ data }),
+      signal,
+    },
+    []
+  )
+    .then(formatReservationDate)
+    .then(formatReservationTime);
+}
+
+export async function deleteReservation(reservation_id, signal) {
+  const url = `${API_BASE_URL}/reservations/${reservation_id}/status`;
+  return await fetchJson(
+    url,
+    {
+      method: "DELETE",
+      signal,
+    },
+    []
+  );
 }
 
 //tables functions

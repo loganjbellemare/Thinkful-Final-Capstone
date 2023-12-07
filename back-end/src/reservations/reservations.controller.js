@@ -16,21 +16,6 @@ const VALID_PROPS = [
   "people",
 ];
 
-function bodyHasValidProps(req, res, next) {
-  const { data } = req.body;
-  const invalidFields = Object.keys(data).filter(
-    (field) => !VALID_PROPS.includes(field)
-  );
-
-  if (invalidFields.length) {
-    return next({
-      status: 400,
-      message: `Invalid field(s): ${invalidFields.join(", ")}`,
-    });
-  }
-  next();
-}
-
 function hasValidMobile(req, res, next) {
   const { mobile_number } = req.body.data;
   const phonePattern = /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/;
@@ -189,7 +174,12 @@ function validStatusPost(req, res, next) {
 
 function hasValidStatus(req, res, next) {
   const { status } = res.locals.data;
-  if (status !== "booked" && status !== "seated" && status !== "finished") {
+  if (
+    status !== "booked" &&
+    status !== "seated" &&
+    status !== "finished" &&
+    status !== "cancelled"
+  ) {
     return next({
       status: 400,
       message: `status property must be one of: 'seated', 'booked', or 'finished'. Received: ${status}`,
@@ -210,6 +200,19 @@ function validateReservationStatus(req, res, next) {
   }
 }
 
+//US-8 validation middleware, validate status is 'booked' before deleting reservation
+function validateStatusDelete(req, res, next) {
+  const { status } = res.locals.reservation;
+  if (status !== "booked") {
+    return next({
+      status: 400,
+      message: `only reservations with a status of 'booked' can be canceled`,
+    });
+  } else {
+    return next();
+  }
+}
+
 //CRUDL middleware
 
 async function create(req, res, next) {
@@ -222,14 +225,30 @@ async function read(req, res, next) {
   res.status(200).json({ data });
 }
 
-async function update(req, res, next) {
+async function updateStatus(req, res, next) {
   const { reservation } = res.locals;
   const { status } = req.body.data;
   const updatedReservation = {
     ...reservation,
     status,
   };
-  const data = await service.update(updatedReservation);
+  const data = await service.updateStatus(updatedReservation);
+  res.status(200).json({ data });
+}
+
+async function update(req, res, next) {
+  const reservation = req.body.data;
+  const data = await service.update(reservation);
+  res.status(200).json({ data });
+}
+
+async function destroy(req, res, next) {
+  const { reservation } = res.locals;
+  const canceledReservation = {
+    ...reservation,
+    status: "canceled",
+  };
+  const data = await service.updateStatus(canceledReservation);
   res.status(200).json({ data });
 }
 
@@ -252,7 +271,6 @@ module.exports = {
   read: [asyncErrorBoundary(reservationExists), asyncErrorBoundary(read)],
   create: [
     bodyHas(...VALID_PROPS),
-    //bodyHasValidProps,
     hasValidMobile,
     validStatusPost,
     hasValidDate,
@@ -263,11 +281,29 @@ module.exports = {
     peopleIsNumber,
     asyncErrorBoundary(create),
   ],
-  update: [
+  updateStatus: [
     bodyHas("status"),
     asyncErrorBoundary(reservationExists),
     asyncErrorBoundary(hasValidStatus),
     asyncErrorBoundary(validateReservationStatus),
+    asyncErrorBoundary(updateStatus),
+  ],
+  update: [
+    asyncErrorBoundary(reservationExists),
+    bodyHas(...VALID_PROPS),
+    hasValidDate,
+    validStatusPost,
+    hasValidDate,
+    dateOccursInPast,
+    occursOnTuesday,
+    hasValidTime,
+    timeWithinBusinessHours,
+    peopleIsNumber,
     asyncErrorBoundary(update),
+  ],
+  delete: [
+    asyncErrorBoundary(reservationExists),
+    validateStatusDelete,
+    asyncErrorBoundary(destroy),
   ],
 };

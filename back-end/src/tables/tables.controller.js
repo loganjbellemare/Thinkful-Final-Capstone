@@ -7,21 +7,6 @@ const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 
 const VALID_PROPS = ["table_name", "capacity"];
 
-function bodyHasValidProps(req, res, next) {
-  const { data } = req.body;
-  const invalidFields = Object.keys(data).filter(
-    (field) => !VALID_PROPS.includes(field)
-  );
-
-  if (invalidFields.length) {
-    return next({
-      status: 400,
-      message: `Invalid field(s): ${invalidFields.join(", ")}`,
-    });
-  }
-  next();
-}
-
 function hasValidName(req, res, next) {
   const { table_name } = req.body.data;
   if (table_name.length < 2 || !table_name.length) {
@@ -205,8 +190,9 @@ async function destroy(req, res, next) {
     ...reservation,
     status: "finished",
   };
-  const openTable = await service.delete(newTable, updatedReservation);
-  res.status(200).json({ data: openTable });
+  await service.delete(newTable, updatedReservation);
+  const data = await service.list();
+  res.status(200).json({ data });
 }
 
 async function list(req, res, next) {
@@ -217,7 +203,6 @@ async function list(req, res, next) {
 module.exports = {
   create: [
     bodyHas(...VALID_PROPS),
-    //bodyHasValidProps,
     hasValidName,
     hasValidCapacity,
     asyncErrorBoundary(create),

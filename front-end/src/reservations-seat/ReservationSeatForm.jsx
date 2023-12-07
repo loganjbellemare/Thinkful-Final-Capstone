@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import { listTables, updateTable } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
+import { today } from "../utils/date-time";
 
 export default function ReservationSeatForm() {
   const history = useHistory();
@@ -23,7 +24,7 @@ export default function ReservationSeatForm() {
     event.preventDefault();
     const controller = new AbortController();
     await updateTable(tableId, reservation_id, controller.signal)
-      .then(() => history.push("/"))
+      .then(() => history.push(`/dashboard?date=${today()}`))
       .catch((err) => setError(err));
     return controller.abort();
   }

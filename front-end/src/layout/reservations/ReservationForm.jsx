@@ -1,7 +1,7 @@
 import "./ReservationForm.css";
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { createReservation } from "../../utils/api";
+import { createReservation, updateReservation } from "../../utils/api";
 import ErrorAlert from "../ErrorAlert";
 
 export default function ReservationForm({ reservation }) {
@@ -34,7 +34,11 @@ export default function ReservationForm({ reservation }) {
     event.preventDefault();
     const controller = new AbortController();
     if (reservation) {
-      return;
+      updateReservation(reservationData, controller.signal)
+        .then(() =>
+          history.push(`/dashboard?date=${reservationData.reservation_date}`)
+        )
+        .catch((err) => setError(err));
     } else {
       createReservation(reservationData, controller.signal)
         .then(() =>
@@ -52,6 +56,8 @@ export default function ReservationForm({ reservation }) {
     return () => controller.abort();
   }
 
+  //debug delete later
+  console.log("reservationData", reservationData);
   return (
     <div className="form-box">
       {reservation ? <h1>Edit Reservation</h1> : <h2>New Reservation</h2>}

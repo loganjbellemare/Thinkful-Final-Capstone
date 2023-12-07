@@ -2,7 +2,6 @@ import { useState } from "react";
 import { listReservations } from "../../utils/api";
 import ReservationList from "../reservations/ReservationList";
 import { useHistory } from "react-router-dom";
-import ErrorAlert from "../ErrorAlert";
 import "../reservations/ReservationForm.css";
 
 export default function SearchForm({ reservationList }) {
@@ -32,8 +31,12 @@ export default function SearchForm({ reservationList }) {
   }
 
   return (
-    <div>
-      <span className="alert alert-danger">Error: {error}</span>
+    <>
+      {error && error.length ? (
+        <span className="alert alert-danger">Error: {error}</span>
+      ) : (
+        <></>
+      )}
       <form onSubmit={handleSubmit} className="form-box">
         <h2>Search Reservations</h2>
         <label className="sr-only" htmlFor="mobile_number">
@@ -66,6 +69,6 @@ export default function SearchForm({ reservationList }) {
           <ReservationList reservations={reservations} />
         </div>
       ) : null}
-    </div>
+    </>
   );
 }

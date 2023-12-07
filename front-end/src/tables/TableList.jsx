@@ -26,13 +26,8 @@ export default function TableList({ tables, date, setTables }) {
         </tr>
       </thead>
       <tbody>
-        {tables.map(({ status, table_name, ...rest }) => (
-          <Table
-            status={status}
-            table_name={table_name}
-            table={rest}
-            key={rest.table_id}
-          />
+        {tables.map(({ ...rest }) => (
+          <Table table={rest} key={rest.table_id} />
         ))}
       </tbody>
     </table>
