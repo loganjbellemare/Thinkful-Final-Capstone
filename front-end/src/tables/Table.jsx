@@ -45,7 +45,7 @@ export default function Table({ table }) {
     <>
       <ErrorAlert error={error} />
       <tr className="table-row" data-table-id-status={table.table_id}>
-        <th> {table.table_id} </th>
+        <td data-title="ID"> {table.table_id} </td>
         <td data-title="Table Name"> {table.table_name} </td>
         <td data-title="Capacity"> {table.capacity} </td>
         <td data-title="Reservation ID"> {table.reservation_id} </td>

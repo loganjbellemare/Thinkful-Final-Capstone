@@ -112,6 +112,8 @@ form span {
   border: 1px solid #102520;
   border-radius: 5px;
   color: #102520;
+  font-family: "Poppins", sans-serif;
+  text-transform: uppercase;
 }
 
 .button-container button:hover,

@@ -64,16 +64,6 @@ export default function Reservation({ reservation }) {
         <br />
         Party Size: {reservation.people}
         <hr />
-        {reservation.status === "booked" ? (
-          <a
-            href={`/reservations/${reservation.reservation_id}/seat`}
-            className="seat-button"
-          >
-            Seat
-          </a>
-        ) : (
-          <></>
-        )}
         <div className="button-box">
           {reservation.status === "booked" ? (
             <a
@@ -81,6 +71,16 @@ export default function Reservation({ reservation }) {
               className="button"
             >
               <span className="fa-solid fa-pencil" />
+            </a>
+          ) : (
+            <></>
+          )}
+          {reservation.status === "booked" ? (
+            <a
+              href={`/reservations/${reservation.reservation_id}/seat`}
+              className="seat-button"
+            >
+              Seat
             </a>
           ) : (
             <></>

@@ -24,6 +24,7 @@ function Dashboard() {
   const date = queryParams.get("date");
   const history = useHistory();
 
+  // eslint-disable-next-line
   useEffect(updateDate, [dateState]);
 
   //default date to today if no specific date is entered in query string
@@ -53,6 +54,7 @@ function Dashboard() {
       .catch((err) => setError(err));
 
     return () => abortController.abort();
+    // eslint-disable-next-line
   }, [date]);
 
   function loadReservations(signal) {
@@ -103,13 +105,13 @@ function Dashboard() {
         <h4 className="mb-0">Tables</h4>
       </div>
       <TableList tables={tables} date={date} setTables={setTables} />
-      <div className="button-box">
+      <div className="dash-buttons">
         <button
           type="button"
           onClick={handlePrevious}
           className="fa fa-chevron-left"
         ></button>
-        <button type="button" onClick={handleToday}>
+        <button type="button" className="today-button" onClick={handleToday}>
           Today
         </button>
         <button

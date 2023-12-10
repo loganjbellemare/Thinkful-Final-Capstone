@@ -6,14 +6,18 @@
   color: rgba(255, 255, 255, 0.5);
 }
 
-.button-box {
+h4 {
+  font-size: 1.5em;
+}
+
+.dash-buttons {
+  padding-top: 1em;
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
   align-items: center;
 }
 
-.button-box button {
+.dash-buttons button {
   padding: 20px;
   background-color: #96795d;
   border: 1px solid #102520;
@@ -22,9 +26,29 @@
   margin: 5px;
 }
 
-.button-box button:hover,
-.button-box button:focus {
+.today-button {
+  font-family: "Poppins", sans-serif;
+  text-transform: uppercase;
+}
+
+.dash-buttons button:hover,
+.dash-buttons button:focus {
   border: 1px solid #dd913d;
   color: #dd913d;
   transition: 0.5s;
+}
+
+@media all and (min-width: 992px) {
+  h4 {
+    font-size: 2em;
+  }
+
+  .dash-buttons button {
+    padding: 1em;
+    font-size: 1.5em;
+  }
+
+  .dash-buttons {
+    padding-top: 1em;
+  }
 }
