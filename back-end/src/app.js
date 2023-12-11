@@ -13,7 +13,7 @@ const tablesRouter = require("./tables/tables.router");
 const app = express();
 
 const corsOptions = {
-  origin: "http://localhost:3000", // Adjust based on your front-end URL
+  origin: "restaurant-reservation-app-frontend-4eo8.onrender.com", // Adjust based on your front-end URL
 };
 
 app.use(cors(corsOptions));
