@@ -48,6 +48,7 @@ export default function TableForm({ reservation }) {
         name="reservation-create"
         className="form-group mx-3"
         onSubmit={handleSubmit}
+        autoComplete="off"
       >
         <label className="sr-only" htmlFor="table_name">
           Table Name

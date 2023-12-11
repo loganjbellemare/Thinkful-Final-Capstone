@@ -76,6 +76,7 @@ export default function ReservationForm({ reservation }) {
             value={reservationData.first_name}
             required={true}
             onChange={handleChange}
+            autoComplete="given-name"
           />
           <span>First Name</span>
         </div>
@@ -90,6 +91,7 @@ export default function ReservationForm({ reservation }) {
             value={reservationData.last_name}
             onChange={handleChange}
             required={true}
+            autoComplete="family-name"
           />
           <span>Last Name</span>
         </div>
@@ -105,6 +107,7 @@ export default function ReservationForm({ reservation }) {
             onChange={handleChange}
             pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
             required={true}
+            autoComplete="tel-national"
           />
           <span>Mobile Number</span>
         </div>
@@ -119,6 +122,7 @@ export default function ReservationForm({ reservation }) {
             value={reservationData.people}
             onChange={handleChange}
             required={true}
+            autoComplete="off"
           />
           <span>Party Size</span>
         </div>
@@ -132,6 +136,7 @@ export default function ReservationForm({ reservation }) {
             onChange={handleChange}
             pattern="\d{4}-\d{2}-\d{2}"
             required={true}
+            autoComplete="off"
           />
         </div>
         <div className="input-box input-box-special">
@@ -144,6 +149,7 @@ export default function ReservationForm({ reservation }) {
             onChange={handleChange}
             pattern="[0-9]{2}:[0-9]{2}"
             required={true}
+            autoComplete="off"
           />
         </div>
         <div className="button-container d-flex flex-row p-3">

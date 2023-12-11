@@ -37,7 +37,7 @@ export default function SearchForm({ reservationList }) {
       ) : (
         <></>
       )}
-      <form onSubmit={handleSubmit} className="form-box">
+      <form onSubmit={handleSubmit} className="form-box" autoComplete="off">
         <h2>Search Reservations</h2>
         <label className="sr-only" htmlFor="mobile_number">
           Mobile Number

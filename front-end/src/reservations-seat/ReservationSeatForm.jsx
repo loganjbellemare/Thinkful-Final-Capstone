@@ -46,6 +46,7 @@ export default function ReservationSeatForm() {
         name="reservation-seat"
         className="form-group mx-3"
         onSubmit={handleSubmit}
+        autoComplete="off"
       >
         <label className="sr-only" htmlFor="table_id">
           Select Table
