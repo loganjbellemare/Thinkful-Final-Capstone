@@ -1,6 +1,6 @@
 # Restaurant Reservation App
 
-> Final Capstone Project for Thinkful's Software Engineering Program
+> Final Capstone Project for Thinkful's Software Engineering Program  
 > Deployed site can be viewed [here](https://restaurant-reservation-app-frontend-4eo8.onrender.com)
 
 ## File Setup
