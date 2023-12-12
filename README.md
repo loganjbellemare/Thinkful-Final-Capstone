@@ -46,42 +46,42 @@ The frontend client side of this application was built using React and CSS, and 
 
 ### Dashboard Page
 
-![screenshot of dashboard page](./front-end/.screenshots/us-01-submit-after.png)
+![screenshot of dashboard page](./front-end/.screenshots/us-01-submit-after.png)  
 Main page of application, displays a list of all reservations for the current day and restaurant tables. Current day can be changed by using the right and left arrow buttons and `TODAY` button at bottom of page, or through search queries. (ex. `/dashboard?date=01-23-2024`) Current day defaults to current date.
 
 ### New Reservation Page
 
-![screenshot of new reservation form](./front-end//.screenshots/reservation-new-form.png)
+![screenshot of new reservation form](./front-end//.screenshots/reservation-new-form.png)  
 Can be accessed by clicking `new reservation` button in header navbar. Displays a form to input a new reservation. Reservations cannot be made on Tuesdays, or before or after business hours for the restaurant. Attempting to submit a reservation that breaks any of these rules will result in an error from the API. Errors are displayed on page after response is sent from API.
 
 ### New Table Page
 
-![screenshot fo new table form](./front-end/.screenshots/new-table-form.png)
+![screenshot fo new table form](./front-end/.screenshots/new-table-form.png)  
 Can be accessed by clicking `new table` button in header navbar. Displays a form to input a new table to the database. Omitting either inputs results in an error from API, errors are displayed on page after response is sent from API.
 
 ### Search Page
 
-![screenshot of search page with results](./front-end/.screenshots/search-results.png)
+![screenshot of search page with results](./front-end/.screenshots/search-results.png)  
 Can be accessed by clicking `search` button in header navbar. Displays a search form with a mobile number input. Returns a list of reservations matching that phone number or `no reservations found` if the mobile number being searched returns no records from database.
 
 ### Seat Reservation Page
 
-![screenshot of seat form](./front-end/.screenshots/reservation-seat-form.png)
+![screenshot of seat form](./front-end/.screenshots/reservation-seat-form.png)  
 Can be accessed by clicking `SEAT` button on reservation display. Displays a form with a select element, with all tables as options. Selecting a table that is already occupied and submitting displays an error that the table is currently occupied. Selecting a table that is open and submitting the form updates the table status to `Occupied` and sets the selected reservation's `reservation_id` as the table's `reservation_id`, and takes the user back to the dashboard page.
 
 ### Edit Reservation Page
 
-![screenshot of edit reservation form](./front-end/.screenshots/us-08-edit-reservation-submit-before.png)
+![screenshot of edit reservation form](./front-end/.screenshots/us-08-edit-reservation-submit-before.png)  
 Can be accessed by clicking the button with a pencil icon on a reservation display on dashboard page. Displays the edit reservation form with current data for reservation filled in by default. Follows same validation as new reservation form. Only reservations with a status of `booked` can be edited.
 
 ### Finishing a Reservation
 
-![screenshot of dialog on finish](./front-end/.screenshots/finish-popup-dialog.png)
+![screenshot of dialog on finish](./front-end/.screenshots/finish-popup-dialog.png)  
 Clicking on the `FINISH` button in table display will display a window pop-up asking user to confirm this action. Confirming will update the reservation's `status` to `finished` and clear the table, updating table status to `Free` and clearing `reservation_id`. Canceling the dialog does nothing and brings user back to current page.
 
 ### Canceling a Reservation
 
-![screenshot of dialog on cancel](./front-end/.screenshots/cancel-popup-dialog.png)
+![screenshot of dialog on cancel](./front-end/.screenshots/cancel-popup-dialog.png)  
 Clicking on the `CANCEL` button in reservation display will dispay a window pop-up asking user to confirm this action. Confirming will update the reservation's status to `cancelled` and will hide it from the dashboard page. Canceling the dialog does nothing and returns the user to the current page.
 
 ## Installation
