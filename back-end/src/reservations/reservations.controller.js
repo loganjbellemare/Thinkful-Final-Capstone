@@ -54,8 +54,7 @@ function hasValidTime(req, res, next) {
 
 function peopleIsNumber(req, res, next) {
   const { people } = req.body.data;
-  const peopleInt = parseInt(people);
-  if (!Number.isInteger(peopleInt)) {
+  if (people < 0 || typeof people !== "number") {
     return next({
       status: 400,
       message: `people invalid, must be an integer received: ${people}`,
