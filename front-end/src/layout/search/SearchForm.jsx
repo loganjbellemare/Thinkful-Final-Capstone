@@ -63,12 +63,10 @@ export default function SearchForm({ reservationList }) {
             Search
           </button>
         </div>
-      </form>
-      {reservations && reservations.length ? (
-        <div>
+        {reservations && reservations.length ? (
           <ReservationList reservations={reservations} />
-        </div>
-      ) : null}
+        ) : null}
+      </form>
     </>
   );
 }
