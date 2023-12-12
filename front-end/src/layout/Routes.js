@@ -5,10 +5,10 @@ import Dashboard from "../dashboard/Dashboard";
 import ReservationForm from "./reservations/ReservationForm";
 import NotFound from "./NotFound";
 import TableForm from "../tables/TableForm";
-import ReservationSeatForm from "../reservations-seat/ReservationSeatForm";
+import ReservationSeatForm from "./reservations-seat/ReservationSeatForm";
 import SearchForm from "./search/SearchForm";
 import { today } from "../utils/date-time";
-import ReservationEdit from "../reservations-edit/ReservationEdit";
+import ReservationEdit from "./reservations-edit/ReservationEdit";
 
 /**
  * Defines all the routes for the application.

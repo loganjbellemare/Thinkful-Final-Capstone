@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
-import { readReservation } from "../utils/api";
-import ErrorAlert from "../layout/ErrorAlert";
-import ReservationForm from "../layout/reservations/ReservationForm";
-import formatReservationTime from "../utils/format-reservation-time";
+import { readReservation } from "../../utils/api";
+import ErrorAlert from "../ErrorAlert";
+import ReservationForm from "../reservations/ReservationForm";
+import formatReservationTime from "../../utils/format-reservation-time";
 
 export default function ReservationEdit() {
   const { reservation_id } = useParams();
