@@ -13,7 +13,7 @@ export default function ReservationForm({ reservation }) {
         mobile_number: "",
         reservation_date: "",
         reservation_time: "",
-        people: "",
+        people: 0,
       };
   const [reservationData, setReservationData] = useState({
     ...initialFormData,
@@ -55,7 +55,8 @@ export default function ReservationForm({ reservation }) {
     history.goBack();
     return () => controller.abort();
   }
-
+  //debug delete later
+  console.log("data", reservationData);
   return (
     <div className="form-box">
       {reservation ? <h1>Edit Reservation</h1> : <h2>New Reservation</h2>}

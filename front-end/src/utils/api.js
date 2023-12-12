@@ -71,6 +71,14 @@ export async function listReservations(params, signal) {
     .then(formatReservationTime);
 }
 
+/**
+ * Creates a new reservation
+ * @param reservation
+ * @param signal
+ * @returns {Promise<[reservation]>}
+ * a promise resolves to an error message or an object with reservation data
+ */
+
 export async function createReservation(reservation, signal) {
   const url = `${API_BASE_URL}/reservations`;
   reservation.people = +reservation.people;
@@ -89,6 +97,14 @@ export async function createReservation(reservation, signal) {
   return response;
 }
 
+/**
+ * lists a single resrevation
+ * @param reservation_id reservation to be read
+ * @param signal
+ * @returns {Promise<[reservation]>}
+ * promise returns either an error message or object containing data for a single reservation
+ */
+
 export async function readReservation(reservation_id, signal) {
   const url = `${API_BASE_URL}/reservations/${reservation_id}`;
   return await fetchJson(
@@ -102,6 +118,15 @@ export async function readReservation(reservation_id, signal) {
     .then(formatReservationDate)
     .then(formatReservationTime);
 }
+
+/**
+ * updates a reservation's status
+ * @param data the status to be updated
+ * @param reservation_id reservation to be updated
+ * @param signal
+ * @returns {Promise<[reservation]>}
+ * promise returns either an error message or object containing updated data for reservation
+ */
 
 export async function updateReservationStatus(data, reservation_id, signal) {
   const url = `${API_BASE_URL}/reservations/${data.reservation_id}/status`;
@@ -119,6 +144,14 @@ export async function updateReservationStatus(data, reservation_id, signal) {
     .then(formatReservationTime);
 }
 
+/**
+ * updates an existing reservation
+ * @param data updates to be made
+ * @param signal
+ * @returns {Promise<[reservation]>}
+ * Promise returns either an error message or object containing updated data
+ */
+
 export async function updateReservation(data, signal) {
   const url = `${API_BASE_URL}/reservations/${data.reservation_id}`;
   return await fetchJson(
@@ -135,6 +168,14 @@ export async function updateReservation(data, signal) {
     .then(formatReservationTime);
 }
 
+/**
+ * changes a reservation's status to 'cancelled'
+ * @param reservation_id reservation to be cancelled
+ * @param signal
+ * @returns {Promise<[reservation]>}
+ * Promise returns either an error message or object containing updated data
+ */
+
 export async function deleteReservation(reservation_id, signal) {
   const url = `${API_BASE_URL}/reservations/${reservation_id}/status`;
   return await fetchJson(
@@ -148,6 +189,15 @@ export async function deleteReservation(reservation_id, signal) {
 }
 
 //tables functions
+
+/**
+ * creates a new table
+ * @param table table data to be created
+ * @param signal
+ * @returns {Promise<[table]>}
+ * Promise returns an array of table data, or an empty array
+ */
+
 export async function createTable(table, signal) {
   const url = `${API_BASE_URL}/tables`;
   const response = await fetchJson(
@@ -165,6 +215,15 @@ export async function createTable(table, signal) {
   return await response;
 }
 
+/**
+ * changes a table's status to 'occupied' and assigns a reservation_id to table
+ * @param table_id
+ * @param reservation_id
+ * @param signal
+ * @returns {Promise<[table]>}
+ * Promise returns either an error message or object containing updated table data
+ */
+
 export async function updateTable(table_id, reservation_id, signal) {
   const url = `${API_BASE_URL}/tables/${table_id}/seat`;
   return await fetchJson(
@@ -179,6 +238,14 @@ export async function updateTable(table_id, reservation_id, signal) {
   );
 }
 
+/**
+ * sets a table's status to 'free' and clears the reservation_id
+ * @param table_id
+ * @param signal
+ * @returns {Promise<[table]>}
+ * Promise returns either an error message or object containing updated table data
+ */
+
 export async function deleteTable(table_id, signal) {
   const url = `${API_BASE_URL}/tables/${table_id}/seat`;
   return await fetchJson(
@@ -190,6 +257,13 @@ export async function deleteTable(table_id, signal) {
     []
   );
 }
+
+/**
+ * lists all tables
+ * @param signal
+ * @returns {Promise<[tables]>}
+ * Promise returns an array containing all table data or an empty array
+ */
 
 export async function listTables(signal) {
   const url = `${API_BASE_URL}/tables`;
